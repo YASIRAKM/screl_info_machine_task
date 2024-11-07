@@ -263,13 +263,15 @@ class _FormWidgetState extends ConsumerState<FormWidget> {
   }
 
 /*NEXT BUTTON ONCLICK */
-  onNextButtonClick() {
+  onNextButtonClick() async {
     bool isRunOnlys = ref.watch(isRunOnly.notifier).state;
     bool isCustomeAduiences = ref.watch(isCustomAudience.notifier).state;
-    ref.read(formDataProvider.notifier).clearAllFormData();
+    await ref.read(formDataProvider.notifier).clearAllFormData();
+
     if (formKey.currentState!.validate()) {
       if (ref.read(currentStepProvider.notifier).state < 4) {
         ref.read(currentStepProvider.notifier).state++;
+
         Map formData = {
           "subject": _campaignSubjectController.text,
           "preview": _previewTextController.text,
@@ -283,6 +285,7 @@ class _FormWidgetState extends ConsumerState<FormWidget> {
         _previewTextController.clear();
         _fromNameController.clear();
         _fromEmailController.clear();
+
         ref.read(isRunOnly.notifier).state = false;
         ref.read(isCustomAudience.notifier).state = false;
       }
